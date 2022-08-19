@@ -1,0 +1,58 @@
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\App.xbf
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\MainPage.xbf
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\Discord bot app.xr.xml
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\Discord bot app.exe
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\Discord bot app.pdb
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\resources.pri
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\AppxManifest.xml
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\Core\AppxManifest.xml
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\Core\Discord bot app.exe
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\Discord bot app.build.appxrecipe
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\CsvHelper.dll
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\Discord.Net.Core.dll
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\Discord.Net.Rest.dll
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\Discord.Net.WebSocket.dll
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\Microsoft.Bcl.HashCode.dll
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\Newtonsoft.Json.dll
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\System.Runtime.dll
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\System.Collections.Immutable.dll
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\System.Interactive.Async.dll
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\System.Linq.Async.dll
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\koala\source\repos\Discord bot app\bin\x86\Debug\Microsoft.UI.Xaml.Markup.winmd
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\Discord bot app.csproj.AssemblyReference.cache
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\App.g.i.cs
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\App.g.cs
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\MainPage.g.i.cs
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\MainPage.g.cs
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\XamlTypeInfo.g.cs
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\App.xaml
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\MainPage.xaml
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\App.xbf
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\MainPage.xbf
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\XamlSaveStateFile.xml
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\Discord bot app.csproj.CoreCompileInputs.cache
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\Discord bot app.csproj.CopyComplete
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\Discord bot app.exe
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\Discord bot app.pdb
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\ResourceHandlingTask.state
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\FxResources.Microsoft.Bcl.HashCode.SR.resw
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\FxResources.System.Collections.Immutable.SR.resw
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\priconfig.xml
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\priconfig.xml.intermediate
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\unfiltered.layout.resfiles
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\unfiltered.layout.resfiles.intermediate
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\filtered.layout.resfiles
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\filtered.layout.resfiles.intermediate
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\excluded.layout.resfiles
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\excluded.layout.resfiles.intermediate
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\resources.resfiles
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\resources.resfiles.intermediate
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\pri.resfiles
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\pri.resfiles.intermediate
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\qualifiers.txt
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\qualifiers.txt.intermediate
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\MultipleQualifiersPerDimensionFound.txt
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\ProjectArchitectures.txt
+C:\Users\koala\source\repos\Discord bot app\obj\x86\Debug\.winmd_cache\$Microsoft.UI.Xaml.Markup.winmd_637424995200000000.json
