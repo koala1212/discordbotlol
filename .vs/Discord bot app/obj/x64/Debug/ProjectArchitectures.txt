@@ -1,0 +1,1 @@
+C:\Users\koala\source\repos\forrowan\Discord bot app\Discord bot app.csproj;x64
