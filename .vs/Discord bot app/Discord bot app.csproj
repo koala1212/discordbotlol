@@ -127,12 +127,14 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GuildManager\GetMessages.cs" />
-    <Compile Include="Interfaces\IStartDiscord.cs" />
-    <Compile Include="MainBot.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GuildManager\Display messages.cs" />
+    <Compile Include="GuildManager\GetMessages.cs" />
+    <Compile Include="GuildManager\Message.cs" />
+    <Compile Include="Interfaces\IStartDiscord.cs" />
+    <Compile Include="MainBot.cs" />
     <Compile Include="MessageLogger\MessageLoggerMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

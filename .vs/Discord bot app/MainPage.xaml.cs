@@ -1,21 +1,39 @@
 ﻿using Discord;
 using Discord_bot_app.GuildManager;
 using Discord_bot_app.MessageLogger;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
 namespace Discord_bot_app
 {
+    public class NewUsers
+    {
+        public string Name { get; set; }
+
+        public IGuildUser Description { get; set; }
+
+        public string UniqueId { get; set; }
+    }
+
     public partial class MainPage : Page
     {
+        ObservableCollection<NewUsers> UserCollection = new ObservableCollection<NewUsers>();
+
         public MainPage()
         {
             this.InitializeComponent();
         }
+
+        public List<Message> MessagesList { get; set; }
 
         public class Guildinfo : InitializeDiscord
         {
@@ -32,11 +50,12 @@ namespace Discord_bot_app
                 return Task.FromResult(Servname);
             }
 
-            public static async Task<(List<IGuildUser> Servname, List<GuildUsers> usersList)> GetGuildMembers()
+            public static async
+                Task<(List<IGuildUser> Servname, List<NewUsers> usersList)> GetGuildMembers()
             {
                 var guildUserList = new List<IGuildUser>();
                 var guilds = Client.Guilds;
-                var usersList = new List<GuildUsers>();
+                var usersList = new List<NewUsers>();
 
                 foreach (var guild in guilds)
                 {
@@ -46,9 +65,9 @@ namespace Discord_bot_app
                     {
                         foreach (var member in user)
                         {
-                            var users = new GuildUsers()
+                            var users = new NewUsers
                             {
-                                Name = member.DisplayName,
+                                Name = $"{member.Username}#{member.DiscriminatorValue}",
                                 UniqueId = member.Discriminator,
                                 Description = member
                             };
@@ -65,27 +84,89 @@ namespace Discord_bot_app
 
         private async void RunLoggerProg(object sender, TappedRoutedEventArgs e)
         {
-            await new MessageLoggerMain().MainAsync("MessageLogger");
+            await new MessageLoggerMain().MainAsync("MessageLogger").ConfigureAwait(false);
         }
 
         private async void GetServerinfo(object sender, TappedRoutedEventArgs e)
         {
-            await new InitializeDiscord().MainAsync("Initialize Guild");
+            await new InitializeDiscord().MainAsync("Initialize Guild").ConfigureAwait(false);
+        }
+
+        public void filldata(List<NewUsers> testList)
+        {
+            foreach (var user in testList)
+            {
+                UserCollection.Add(user);
+            }
         }
 
         private async void NameSelect(object sender, ItemClickEventArgs e)
         {
-            var userClass = Guildinfo.GetGuildMembers().Result.usersList;
+            var userClass = (await Guildinfo.GetGuildMembers().ConfigureAwait(false)).usersList;
+            MessageListView.Items.Clear();
 
-            foreach (var users in userClass)
-            {
-                Debug.WriteLine(users.Name);
-            }
-
-            var selectedName = userClass.Where(UniqueId2 => UniqueId2.Name == (string)e.ClickedItem)
+            var selectedName = userClass
+                .Where(UniqueId2 => UniqueId2.Name == ((Discord_bot_app.NewUsers)e.ClickedItem).Name)
                 .Select(UniqueId2 => UniqueId2.Description);
 
-            await GetMessages.GetUser(selectedName);
+            await GetMessages.GetUser(selectedName).ConfigureAwait(false);
+
+            try // Creates dm channel kinda scuffed but works 
+            {
+                var guildUser = GetMessages.GuildUser;
+                await GetMessages.Send(guildUser);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                MessageListView.Items.Clear();
+            }
+
+            if (GetMessages.dmChannel != null)
+            {
+                async void Start()
+                {
+                    while (true)
+                    {
+                        MessagesList = await Task.Run(GetMessages.GetMessage).ConfigureAwait(false);
+                        Thread.Sleep(1000);
+                        var mestodisplaylist = new List<ListViewItem>();
+                        var messlist = MessagesList;
+
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                            CoreDispatcherPriority.Normal,
+                            () =>
+                            {
+                                var MessageBlock = new TextBlock();
+
+                                foreach (var message in messlist)
+                                {
+                                    var userItem = new ListViewItem();
+
+                                    MessageBlock.Text = message.Author.Username;
+                                    userItem.Content = message.Content;
+                                    userItem.Name = message.Timestamp;
+                                    mestodisplaylist.Add(userItem);
+                                }
+
+                                foreach (var messageitem in from messageitem in mestodisplaylist
+                                                            let Crossref = MessageListView.Items
+                                                                .OfType<ListViewItem>()
+                                                                .Select(id => id.Name)
+                                                                .ToList()
+                                                            where !Crossref.Contains(messageitem.Name)
+                                                            select messageitem)
+                                {
+                                    MessageListView.Items.Add(messageitem);
+                                }
+                            });
+                    }
+                }
+
+                var th = new Thread(Start) { IsBackground = true };
+
+                th.Start();
+            }
         }
 
         private void Refreshserver(object sender, TappedRoutedEventArgs e)
@@ -95,8 +176,8 @@ namespace Discord_bot_app
 
             foreach (var x in Guildinfo.GetGuild().Result)
             {
-                ListViewItem item = new ListViewItem();
-                TextBlock myText = new TextBlock { Text = x };
+                var item = new ListViewItem();
+                var myText = new TextBlock { Text = x };
                 item.Content = x;
                 itemList.Add(item);
             }
@@ -112,19 +193,7 @@ namespace Discord_bot_app
             var userList = new List<ListViewItem>();
             var userBlock = new TextBlock();
 
-            foreach (var x in Guildinfo.GetGuildMembers().Result.Servname)
-            {
-                var userItem = new ListViewItem();
-                userBlock.Text = x.Discriminator;
-                userItem.Content = x.DisplayName;
-                userList.Add(userItem);
-                userItem.Name = x.Discriminator;
-            }
-
-            foreach (var username in userList)
-            {
-                MemberList.Items.Add(username);
-            }
+            filldata(Guildinfo.GetGuildMembers().Result.usersList);
         }
 
         public class GuildUsers
@@ -141,11 +210,6 @@ namespace Discord_bot_app
             var guildUser = GetMessages.GuildUser;
             var textToSend = MessageText.Text;
             await GetMessages.Send(guildUser, textToSend);
-        }
-
-        private void MessageToSend(object sender, TextChangedEventArgs e)
-        {
-            //  TODO: get messages from discord and upload to list 
         }
     }
 }

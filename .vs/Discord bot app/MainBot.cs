@@ -14,8 +14,7 @@ public class InitializeDiscord
     {
         Client = new DiscordSocketClient();
         Client.Log += Log;
-
-        var token = "MTAwNDg4NjQ1MjY4Mjg5MTMzNQ.GikQmJ.Cca4A9cV0kZctRJYbzb8e6dghTADrrlZFrMbeo";
+        var token = "MTAwNDg4NjQ1MjY4Mjg5MTMzNQ.Gfkwwz.eaqyIjny9kVTqkY5TUuaFXQq-rMytPXYw4a2A8";
 
         await Client.LoginAsync(TokenType.Bot, token);
         await Client.StartAsync();
@@ -35,12 +34,12 @@ public class InitializeDiscord
             Client.Ready += MainPage.Guildinfo.GetGuild;
         }
 
-        //_client.Ready += MessageLoggerMain._StartMessageLog;
 
         Debug.WriteLine(Client.ConnectionState);
 
         await Task.Delay(-1);
     }
+
 
     private Task Log(LogMessage msg)
     {

@@ -12,13 +12,14 @@
         <Grid Height="1000" Width="1500" Background="#FF1C1C1F">
             <Button x:Name="RunLogger" Content="Run Logger" Height="69" Margin="0,267,0,0" VerticalAlignment="Top" Width="160" FontSize="22" FontFamily="Times New Roman" FontStyle="Normal" Tapped="RunLoggerProg" HorizontalAlignment="Center"/>
             <Button x:Name="InitializeServer" Content="InitializeServer" Height="69" Margin="0,336,0,0" VerticalAlignment="Top" Width="270" FontSize="24" Tapped="GetServerinfo" HorizontalAlignment="Center"/>
-            <ListView x:Name="ServerList" HorizontalAlignment="Left" Height="96" Margin="75,233,0,0" VerticalAlignment="Top" Width="159" AutomationProperties.IsRequiredForForm="True" FocusVisualPrimaryBrush="#FF0027FF" Foreground="White" ItemsSource="{Binding}" SelectionMode="Single" BorderBrush="White"/>
-            <ListView x:Name="MemberList" HorizontalAlignment="Left" Height="501" Margin="890,240,0,0" VerticalAlignment="Top" Width="419" Foreground="White" FontSize="16" RequestedTheme="Default" Visibility="Visible" ItemClick="NameSelect" IsItemClickEnabled="True"/>
+            <ListView x:FieldModifier="public" x:Name="ServerList" HorizontalAlignment="Left" Height="96" Margin="1183,256,0,0" VerticalAlignment="Top" Width="140" AutomationProperties.IsRequiredForForm="True" FocusVisualPrimaryBrush="#FF0027FF" Foreground="White" ItemsSource="{Binding}" SelectionMode="Single" BorderBrush="White"/>
+            <ListView x:FieldModifier="public" x:Name="MemberList" ItemsSource="{x:Bind UserCollection}"  HorizontalAlignment="Left" Height="501" Margin="1033,0,0,0" VerticalAlignment="Center" Width="133" Foreground="White" FontSize="16" RequestedTheme="Default" Visibility="Visible" ItemClick="NameSelect" IsItemClickEnabled="True" ItemTemplate="{StaticResource ListViewItemTemplate1}" />
             <Button x:Name="Refreshuserlist" Content="Refresh Users" Height="39" Margin="1046,197,0,0" VerticalAlignment="Top" Width="107" Tapped="Refresh_User_list"/>
-            <Button x:Name="Refresh_server_list" Content="Refresh Server List" Height="35" Margin="84,193,0,0" VerticalAlignment="Top" Width="140" Tapped="Refreshserver"/>
-            <Button x:Name="Send_message" Content="Send message" Height="36" Margin="315,170,0,0" VerticalAlignment="Top" Width="117" Tapped="SendMessage"/>
-            <TextBox x:Name="MessageText" HorizontalAlignment="Left" Height="44" Margin="315,217,0,0" TextWrapping="Wrap" Text="Write Message here" VerticalAlignment="Top" Width="295" AcceptsReturn="True" InputScope="Text" TextChanged="MessageToSend" TextReadingOrder="UseFlowDirection" AllowDrop="True" IsSpellCheckEnabled="True"/>
-            <ListView HorizontalAlignment="Left" Height="210" Margin="315,302,0,0" VerticalAlignment="Top" Width="281"/>
+            <Button x:Name="Refresh_server_list" Content="Refresh Server List" Height="35" Margin="1183,201,0,0" VerticalAlignment="Top" Width="140" Tapped="Refreshserver"/>
+            <Button x:Name="Send_message" Content="Send message" Height="36" Margin="596,525,0,0" VerticalAlignment="Top" Width="117" Tapped="SendMessage"/>
+            <TextBox x:Name="MessageText" HorizontalAlignment="Left" Height="44" Margin="71,517,0,0" TextWrapping="Wrap" Text="Write Message here" VerticalAlignment="Top" Width="525" AcceptsReturn="True" InputScope="Text" TextReadingOrder="UseFlowDirection" AllowDrop="True" IsSpellCheckEnabled="True"/>
+            <ListView x:FieldModifier="public" x:Name="MessageListView"   HorizontalAlignment="Left" Height="512" Margin="71,0,0,0" VerticalAlignment="Top" Width="525"/>
+            <ListView ItemsSource="" HorizontalAlignment="Left" Height="253" Margin="734,562,0,0" VerticalAlignment="Top" Width="270"/>
 
         </Grid>
     </Viewbox>
