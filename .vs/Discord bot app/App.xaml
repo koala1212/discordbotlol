@@ -5,10 +5,55 @@
     xmlns:local="using:Discord_bot_app">
     <Application.Resources>
         <DataTemplate x:Key="ListViewItemTemplate1">
-            <Grid>
-            <TextBlock Text="{Binding Name}"></TextBlock>
 
-                </Grid>
+            <Grid>
+                
+                <TextBlock Text="{Binding Name}"></TextBlock>
+
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="DMUsersListHeaderTemplate">
+            <Grid >
+                <ListViewHeaderItem Foreground="White" HorizontalAlignment="Center">All Users</ListViewHeaderItem>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="UserDmItemTemplate">
+            <Grid>
+                <TextBlock Foreground="White" TextWrapping="Wrap" Text="{Binding Name}"></TextBlock>
+            </Grid>
+        </DataTemplate>
+        
+        <ControlTemplate x:Key="NavigationViewTemplate1" TargetType="NavigationView">
+            <Grid>
+
+            </Grid>
+        </ControlTemplate>
+        <DataTemplate x:Key="MessagePageDMHeader">
+            <Grid Background="DarkGray">
+                <RichTextBlock>
+
+                    <Paragraph TextAlignment="Center">DMs</Paragraph>
+                </RichTextBlock>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="NavigationViewContentTemplate1">
+            <Grid>
+
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="ServerItemTemplate">
+            <Grid>
+                <TextBlock Text="{Binding ServerName}"></TextBlock>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="MessageDmItemTemplate">
+            <Grid>
+
+                <TextBlock Text="{Binding Name}"></TextBlock>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="MessagePageDmList">
+            <Grid/>
         </DataTemplate>
     </Application.Resources>
 
