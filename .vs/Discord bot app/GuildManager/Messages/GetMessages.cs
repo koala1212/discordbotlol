@@ -1,10 +1,11 @@
 ﻿using Discord;
+using Discord_bot_app.GuildManager.Messages.MessageClasses;
+using Discord_bot_app.Startup;
 using System;
 using System.Collections.Generic;
-
 using System.Threading.Tasks;
 
-namespace Discord_bot_app.GuildManager;
+namespace Discord_bot_app.GuildManager.Messages;
 
 public class GetMessages : InitializeDiscord
 {
@@ -20,7 +21,6 @@ public class GetMessages : InitializeDiscord
         {
             GuildUser = guild;
         }
-
     }
 
     public static async Task Send(IGuildUser userData, string text = null)

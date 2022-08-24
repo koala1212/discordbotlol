@@ -1,6 +1,6 @@
 ﻿using Discord;
 
-namespace Discord_bot_app.GuildManager;
+namespace Discord_bot_app.GuildManager.Messages.MessageClasses;
 
 public class Message
 {

@@ -1,0 +1,15 @@
+﻿<Page 
+    x:Class="Discord_bot_app.Views.HomeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Discord_bot_app.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <TextBlock>Home</TextBlock>
+        <Button x:Name="InitializeServer" Content="InitializeServer" Height="69" Margin="0,336,0,0" VerticalAlignment="Top" Width="270" FontSize="24" Tapped="GetServerinfo" HorizontalAlignment="Center"/>
+    </Grid>
+</Page>

@@ -1,61 +1,59 @@
 ﻿using Discord;
-using Discord_bot_app.GuildManager;
+using Discord_bot_app.GuildManager.Messages.MessageClasses;
+
 using Discord_bot_app.MessageLogger;
-using System;
+using Discord_bot_app.Startup;
+using Discord_bot_app.Views;
+using Discord_bot_app.Views.SettingsPage;
+using Discord_bot_app.Views.UserPage;
+using Discord_bot_app.Views.UserPage.Userdata.Classes;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
 namespace Discord_bot_app
 {
-    public class NewUsers
-    {
-        public string Name { get; set; }
-
-        public IGuildUser Description { get; set; }
-
-        public string UniqueId { get; set; }
-    }
-
     public partial class MainPage : Page
     {
-        ObservableCollection<NewUsers> UserCollection = new ObservableCollection<NewUsers>();
+        //public readonly ObservableCollection<GuildManager.Users.MainPage.GuildUsers> UserCollection = new ObservableCollection<GuildManager.Users.MainPage.GuildUsers>();
 
         public MainPage()
         {
             this.InitializeComponent();
         }
 
-        public List<Message> MessagesList { get; set; }
+        private List<Message> MessagesList { get; set; }
 
         public class Guildinfo : InitializeDiscord
         {
-            public static Task<List<string>> GetGuild()
+            public static Task<List<ServerClass>> GetGuild()
             {
-                List<string> Servname = new List<string>();
+                var servname = new List<ServerClass>();
+
                 var guilds = Client.Guilds;
 
                 foreach (var guild in guilds)
                 {
-                    Servname.Add(guild.Name);
+                    var guildinfo = new ServerClass
+                    {
+                        ServerName = guild.Name,
+                        Description = guild.Description,
+                    };
+
+                    servname.Add(guildinfo);
                 }
 
-                return Task.FromResult(Servname);
+                return Task.FromResult(servname);
             }
 
             public static async
-                Task<(List<IGuildUser> Servname, List<NewUsers> usersList)> GetGuildMembers()
+                Task<(List<IGuildUser> Servname, List<GuildManager.Users.MainPage.GuildUsers> usersList)> GetGuildMembers()
             {
                 var guildUserList = new List<IGuildUser>();
                 var guilds = Client.Guilds;
-                var usersList = new List<NewUsers>();
+                var usersList = new List<GuildManager.Users.MainPage.GuildUsers>();
 
                 foreach (var guild in guilds)
                 {
@@ -65,7 +63,7 @@ namespace Discord_bot_app
                     {
                         foreach (var member in user)
                         {
-                            var users = new NewUsers
+                            var users = new GuildManager.Users.MainPage.GuildUsers
                             {
                                 Name = $"{member.Username}#{member.DiscriminatorValue}",
                                 UniqueId = member.Discriminator,
@@ -82,134 +80,64 @@ namespace Discord_bot_app
             }
         }
 
-        private async void RunLoggerProg(object sender, TappedRoutedEventArgs e)
+        private async void RunLoggerProg(object sender, TappedRoutedEventArgs e) => await new MessageLoggerMain().MainAsync("MessageLogger").ConfigureAwait(false);
+
+        public void Refresh_User_list(object sender, TappedRoutedEventArgs e)
         {
-            await new MessageLoggerMain().MainAsync("MessageLogger").ConfigureAwait(false);
+
+            //Filldata(Guildinfo.GetGuildMembers().Result.usersList);
         }
 
-        private async void GetServerinfo(object sender, TappedRoutedEventArgs e)
+
+
+        private void menuItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
-            await new InitializeDiscord().MainAsync("Initialize Guild").ConfigureAwait(false);
-        }
-
-        public void filldata(List<NewUsers> testList)
-        {
-            foreach (var user in testList)
+            if (args.IsSettingsInvoked)
             {
-                UserCollection.Add(user);
+                MainPageFrame.Navigate(typeof(SettingsPage));
             }
-        }
-
-        private async void NameSelect(object sender, ItemClickEventArgs e)
-        {
-            var userClass = (await Guildinfo.GetGuildMembers().ConfigureAwait(false)).usersList;
-            MessageListView.Items.Clear();
-
-            var selectedName = userClass
-                .Where(UniqueId2 => UniqueId2.Name == ((Discord_bot_app.NewUsers)e.ClickedItem).Name)
-                .Select(UniqueId2 => UniqueId2.Description);
-
-            await GetMessages.GetUser(selectedName).ConfigureAwait(false);
-
-            try // Creates dm channel kinda scuffed but works 
+            else
             {
-                var guildUser = GetMessages.GuildUser;
-                await GetMessages.Send(guildUser);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                MessageListView.Items.Clear();
-            }
-
-            if (GetMessages.dmChannel != null)
-            {
-                async void Start()
+                if (args.InvokedItem is TextBlock ItemContent)
                 {
-                    while (true)
+                    switch (ItemContent.Tag)
                     {
-                        MessagesList = await Task.Run(GetMessages.GetMessage).ConfigureAwait(false);
-                        Thread.Sleep(1000);
-                        var mestodisplaylist = new List<ListViewItem>();
-                        var messlist = MessagesList;
+                        case "Nav_Home":
+                            MainPageFrame.Navigate(typeof(HomeView));
 
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                            CoreDispatcherPriority.Normal,
-                            () =>
-                            {
-                                var MessageBlock = new TextBlock();
+                            break;
 
-                                foreach (var message in messlist)
-                                {
-                                    var userItem = new ListViewItem();
+                        case "Nav_Users":
+                            MainPageFrame.Navigate(typeof(UsersView));
 
-                                    MessageBlock.Text = message.Author.Username;
-                                    userItem.Content = message.Content;
-                                    userItem.Name = message.Timestamp;
-                                    mestodisplaylist.Add(userItem);
-                                }
+                            break;
 
-                                foreach (var messageitem in from messageitem in mestodisplaylist
-                                                            let Crossref = MessageListView.Items
-                                                                .OfType<ListViewItem>()
-                                                                .Select(id => id.Name)
-                                                                .ToList()
-                                                            where !Crossref.Contains(messageitem.Name)
-                                                            select messageitem)
-                                {
-                                    MessageListView.Items.Add(messageitem);
-                                }
-                            });
+                        case "Nav_Messages":
+                            MainPageFrame.Navigate(typeof(MessageView));
+
+                            break;
                     }
                 }
-
-                var th = new Thread(Start) { IsBackground = true };
-
-                th.Start();
             }
         }
 
-        private void Refreshserver(object sender, TappedRoutedEventArgs e)
+        private void NavViewLoaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            var itemList = new List<ListViewItem>();
-            ServerList.Items.Clear();
-
-            foreach (var x in Guildinfo.GetGuild().Result)
+            foreach (NavigationViewItemBase item in NavMenuMain.MenuItems)
             {
-                var item = new ListViewItem();
-                var myText = new TextBlock { Text = x };
-                item.Content = x;
-                itemList.Add(item);
+                if (item is NavigationViewItem && item.Tag.ToString() == "Home_Page")
+                {
+                    NavMenuMain.SelectedItem = item;
+
+                    break;
+                }
             }
 
-            foreach (var name in itemList)
-            {
-                ServerList.Items.Add(name);
-            }
+            MainPageFrame.Navigate(typeof(HomeView));
         }
 
-        private void Refresh_User_list(object sender, TappedRoutedEventArgs e)
+        private void NavViewSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            var userList = new List<ListViewItem>();
-            var userBlock = new TextBlock();
-
-            filldata(Guildinfo.GetGuildMembers().Result.usersList);
-        }
-
-        public class GuildUsers
-        {
-            public string Name { get; set; }
-
-            public IGuildUser Description { get; set; }
-
-            public string UniqueId { get; set; }
-        }
-
-        private async void SendMessage(object sender, TappedRoutedEventArgs e)
-        {
-            var guildUser = GetMessages.GuildUser;
-            var textToSend = MessageText.Text;
-            await GetMessages.Send(guildUser, textToSend);
         }
     }
 }

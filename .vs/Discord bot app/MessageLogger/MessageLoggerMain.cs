@@ -1,11 +1,13 @@
 ﻿using CsvHelper;
 using Discord;
+using Discord_bot_app.Startup;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace Discord_bot_app.MessageLogger;
 
@@ -13,33 +15,33 @@ public class MessageLoggerMain : InitializeDiscord
 {
     private class Message
     {
-        public string _author { get; set; }
+        public string Author { get; set; }
 
-        public string _userID { get; set; }
+        public string UserId { get; set; }
 
-        public DateTimeOffset _timestamp { get; set; }
+        public DateTimeOffset Timestamp { get; set; }
 
-        public string _attachment { get; set; }
+        public string Attachment { get; set; }
 
-        public string _content { get; set; }
+        public string Content { get; set; }
     }
 
-    public static async Task _StartMessageLog()
+    internal static async Task _StartMessageLog()
     {
         var storageFolder =
-            Windows.Storage.ApplicationData.Current.LocalFolder;
+            ApplicationData.Current.LocalFolder;
 
         var logfile =
             await storageFolder.CreateFileAsync(
                 "DiscordLoungeLogs.csv",
-                Windows.Storage.CreationCollisionOption.ReplaceExisting);
+                CreationCollisionOption.ReplaceExisting);
 
         var channel = Client.GetChannel(380719004962258944) as IMessageChannel;
         ulong fromMessageId = 0;
 
         var frommessage = channel.GetMessagesAsync(1).FlattenAsync().Result;
 
-        var records = new List<Message> { };
+        var records = new List<Message>();
 
         foreach (var message in frommessage)
         {
@@ -48,10 +50,9 @@ public class MessageLoggerMain : InitializeDiscord
             break;
         }
 
-        int i = 0;
-        bool go = true;
+        var i = 0;
 
-        while (go)
+        while (true)
         {
             try
             {
@@ -82,15 +83,15 @@ public class MessageLoggerMain : InitializeDiscord
                     records.Add(
                         new Message
                         {
-                            _userID = author.Discriminator,
-                            _author = author.Username,
-                            _timestamp = timestamp,
-                            _content = message.Content,
-                            _attachment = attachmentlist
+                            UserId = author.Discriminator,
+                            Author = author.Username,
+                            Timestamp = timestamp,
+                            Content = message.Content,
+                            Attachment = attachmentlist
                         });
 
                     Debug.WriteLine(
-                        $"User:{records[i]._author} Timestamp:{records[i]._timestamp} Message: {records[i]._content} ");
+                        $"User:{records[i].Author} Timestamp:{records[i].Timestamp} Message: {records[i].Content} ");
 
                     i++;
                 }
@@ -98,7 +99,6 @@ public class MessageLoggerMain : InitializeDiscord
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message, ex.StackTrace, Console.BackgroundColor == ConsoleColor.DarkRed);
-                go = false;
 
                 break;
             }
@@ -106,10 +106,9 @@ public class MessageLoggerMain : InitializeDiscord
             var stream = await logfile.OpenStreamForWriteAsync();
             using var writer = new StreamWriter(stream);
 
-            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-            {
-                await csv.WriteRecordsAsync(records);
-            }
+            using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+
+            await csv.WriteRecordsAsync(records);
         }
     }
 }
