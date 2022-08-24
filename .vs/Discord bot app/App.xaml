@@ -48,7 +48,7 @@
         <ItemsPanelTemplate x:Key="DMUsersItemPanel">
             <StackPanel>
                 
-                <PersonPicture Scale="" Height="43" Width="61" HorizontalAlignment="Left" ProfilePicture=""/>
+                <PersonPicture Height="43" Width="61" HorizontalAlignment="Left" ProfilePicture=""/>
                 <TextBlock TextWrapping="Wrap" Text="{Binding Name}" d:DataContext="{d:DesignInstance }"></TextBlock>
             </StackPanel>
         </ItemsPanelTemplate>
