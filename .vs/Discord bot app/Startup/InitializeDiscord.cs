@@ -1,28 +1,25 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using Discord_bot_app.MessageLogger;
-using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Discord_bot_app.Startup;
 
+
 public class InitializeDiscord
 {
-    protected static DiscordSocketClient Client;
+    
+    public static DiscordSocketClient Client;
 
     public async Task MainAsync(string taskname)
     {
         Client = new DiscordSocketClient();
         Client.Log += Log;
-        var token = "MTAwNDg4NjQ1MjY4Mjg5MTMzNQ.GdOiSJ.M0LSdZo4v8OnXUjDQWstjLVCuJnoNKb9VYhGRQ";
+        var token = "MTAwNDg4NjQ1MjY4Mjg5MTMzNQ.GKzf3N.1wn-1CIyup5cAS5K1jB_p8ASVcAuVQvxZ0Eirs";
         
         await Client.LoginAsync(TokenType.Bot, token);
         await Client.StartAsync();
-
-        Client.MessageReceived += MessageReceived;
-
-
 
         if (taskname == "MessageLogger")
         {
@@ -39,16 +36,17 @@ public class InitializeDiscord
             Client.Ready += MainPage.Guildinfo.GetGuild;
         }
 
-
         Debug.WriteLine(Client.ConnectionState);
 
         await Task.Delay(-1);
     }
 
-    private async Task MessageReceived(SocketMessage message)
-    {
-        Debug.WriteLine(message.Content);
-    }
+    //private async Task UserJoined(SocketGuildUser user)
+    //{
+    //    new MessageView().UserJoined();
+    //}
+
+    
 
     private Task Log(LogMessage msg)
     {

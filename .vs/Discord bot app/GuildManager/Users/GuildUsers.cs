@@ -1,11 +1,11 @@
 ﻿using Discord;
-using System.Collections;
+
 
 namespace Discord_bot_app.GuildManager.Users;
 
 public partial class MainPage
 {
-    public class GuildUsers : IEnumerable
+    public class GuildUsers
     {
         public string Name { get; set; }
 
@@ -13,9 +13,7 @@ public partial class MainPage
 
         internal string UniqueId { get; set; }
 
-        public IEnumerator GetEnumerator()
-        {
-            throw new System.NotImplementedException();
-        }
+        public string ProfileImage { get; set; }
+        
     }
 }

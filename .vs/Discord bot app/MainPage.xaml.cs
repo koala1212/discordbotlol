@@ -67,7 +67,8 @@ namespace Discord_bot_app
                             {
                                 Name = $"{member.Username}#{member.DiscriminatorValue}",
                                 UniqueId = member.Discriminator,
-                                Description = member
+                                Description = member,
+                                ProfileImage = member.GetDisplayAvatarUrl()
                             };
 
                             usersList.Add(users);
