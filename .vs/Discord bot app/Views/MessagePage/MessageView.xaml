@@ -9,14 +9,15 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="PageLoaded" RequestedTheme="Dark" Unloaded="Unloaded">
 
     <Grid Background="Black" BorderThickness="2,2,2,2" RequestedTheme="Dark">
-        <Button x:Name="Send_message" Background ="DodgerBlue"  Content="Send" Height="39" Margin="765,597,0,0" VerticalAlignment="Top" Width="105" Tapped="SendMessage" Foreground="White" FocusVisualPrimaryBrush="White" BorderBrush="#FF272626" FontSize="18" />
-        <TextBox  x:Name="MessageText" HorizontalAlignment="Left" Height="44" Margin="224,594,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="525" AcceptsReturn="True" InputScope="Text" TextReadingOrder="UseFlowDirection" AllowDrop="True" IsSpellCheckEnabled="True" BorderBrush="White" Foreground="DimGray" VerticalContentAlignment="Center" RequestedTheme="Default" BorderThickness="2,2,2,2" PlaceholderText="Write Message here"/>
-        <ListView  Background="Black" HeaderTemplate="{StaticResource MessagePageDMHeader}" x:FieldModifier="public" x:Name="ListOfMessages"  HorizontalAlignment="Left" Height="512" Margin="224,79,0,0" VerticalAlignment="Top" Width="525" BorderBrush="White" BorderThickness="5,5,5,5">
+        <Button x:Name="Send_message" Background ="DodgerBlue"  Content="Send" Height="39" Margin="1027,605,0,0" VerticalAlignment="Top" Width="105" Tapped="SendMessage" Foreground="White" FocusVisualPrimaryBrush="White" BorderBrush="#FF272626" FontSize="18" />
+        <TextBox  x:Name="MessageText" HorizontalAlignment="Left" Height="44" Margin="204,598,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="802" AcceptsReturn="True" InputScope="Text" TextReadingOrder="UseFlowDirection" AllowDrop="True" IsSpellCheckEnabled="True" BorderBrush="White" Foreground="DimGray" VerticalContentAlignment="Center" RequestedTheme="Default" BorderThickness="2,2,2,2" PlaceholderText="Write Message here"/>
+        <ListView  Background="Black" HeaderTemplate="{StaticResource MessagePageDMHeader}" x:FieldModifier="public" x:Name="ListOfMessages"  HorizontalAlignment="Left" Height="132" Margin="555,772,0,0" VerticalAlignment="Top" Width="195" BorderBrush="White" BorderThickness="5,5,5,5">
             <ListView.Foreground>
                 <SolidColorBrush Color="{ThemeResource SystemAccentColorDark1}"/>
             </ListView.Foreground>
         </ListView>
-        <ListView  HeaderTemplate="{StaticResource DMUsersListHeaderTemplate}" ItemTemplate="{StaticResource UserDmItemTemplate}" ItemsPanel="{StaticResource DMUsersItemPanel}" x:FieldModifier="public" x:Name="MemberList" ItemsSource="{x:Bind Path= UserCollection}"  Background="Black" HorizontalAlignment="Left" Height="444" Margin="762,145,0,0" VerticalAlignment="Top" Width="272" Foreground="White" FontSize="16" RequestedTheme="Default" Visibility="Visible" ItemClick="NameSelect" IsItemClickEnabled="True" FocusVisualPrimaryBrush="#FF484444" BorderBrush="White" BorderThickness="3,3" />
+        <ListView  HeaderTemplate="{StaticResource DMUsersListHeaderTemplate}" ItemTemplate="{StaticResource UserDmItemTemplate}" x:FieldModifier="public" x:Name="MemberList" ItemsSource="{x:Bind Path= UserCollection}"  Background="Black" HorizontalAlignment="Left" Height="476" Margin="1027,102,0,0" VerticalAlignment="Top" Width="272" Foreground="White" FontSize="16" RequestedTheme="Default" Visibility="Visible" ItemClick="NameSelect" IsItemClickEnabled="True" FocusVisualPrimaryBrush="#FF484444" BorderBrush="White" BorderThickness="3,3" />
+        <ListView Background="Black" ItemTemplate="{StaticResource DmMessageItemsTest}" x:Name="NewMessageList" ItemsSource="{x:Bind Path= MessageCollection}"  BorderBrush="White" BorderThickness="2,2,2,2" HorizontalAlignment="Left" Height="504" Margin="202,72,0,0" VerticalAlignment="Top" Width="800" FocusVisualPrimaryBrush="{x:Null}" FocusVisualSecondaryBrush="{x:Null}"/>
 
     </Grid>
 </Page>

@@ -14,7 +14,7 @@ namespace Discord_bot_app.Views
     {
         public ObservableCollection<GuildManager.Users.MainPage.GuildUsers> UserCollection = new ObservableCollection<GuildManager.Users.MainPage.GuildUsers>();
         
-        public ObservableCollection<GuildManager.Users.MainPage.GuildUsers> MessageCollection = new ObservableCollection<GuildManager.Users.MainPage.GuildUsers>();
+        public ObservableCollection<MessagePage.MainPage.Messages> MessageCollection = new ObservableCollection<MessagePage.MainPage.Messages>();
 
         public MessageView()
         {
@@ -51,7 +51,7 @@ namespace Discord_bot_app.Views
             var guildUser = GetMessages.GuildUser;
             var textToSend = MessageText.Text;
             await GetMessages.Send(guildUser, textToSend);
-            await DisplayMessage();
+            await DisplayMessageAsync();
         }
 
         private void Unloaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)

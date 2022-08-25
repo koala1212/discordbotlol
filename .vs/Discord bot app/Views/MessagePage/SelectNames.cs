@@ -1,6 +1,5 @@
 ﻿using Discord.WebSocket;
 using Discord_bot_app.GuildManager.Messages;
-using Discord_bot_app.GuildManager.Messages.MessageClasses;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,14 +13,14 @@ namespace Discord_bot_app.Views;
 
 public partial class MessageView : Page
 {
-    private List<Message> MessagesList { get; set; }
+    private List<MessagePage.MainPage.Messages> MessagesList { get; set; }
 
-    private async Task MessageRecieved(SocketMessage message) => await DisplayMessage();
+    private async Task MessageRecieved(SocketMessage message) => await DisplayMessageAsync();
 
     public async void NameSelect(object sender, ItemClickEventArgs e)
     {
         var userClass = (await MainPage.Guildinfo.GetGuildMembers().ConfigureAwait(false)).usersList;
-        ListOfMessages.Items.Clear();
+        MessageCollection.Clear();
 
         var selectedName = userClass
             .Where(UniqueId2 => UniqueId2.Name == ((GuildManager.Users.MainPage.GuildUsers)e.ClickedItem).Name)
@@ -37,47 +36,54 @@ public partial class MessageView : Page
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
-            ListOfMessages.Items.Clear();
+            MessageCollection.Clear();
         }
 
-        await DisplayMessage();
+        await DisplayMessageAsync();
     }
 
     
 
-public async Task DisplayMessage()    
+public async Task DisplayMessageAsync()    
     {
         if (GetMessages.dmChannel != null)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                CoreDispatcherPriority.Normal,
                 async () =>
 
                 {
                     MessagesList = await GetMessages.GetMessage();
 
-                    var mestodisplaylist = new List<ListViewItem>();
-                    var messlist = MessagesList;
-                    var MessageBlock = new TextBlock();
-
-                    foreach (var message in messlist)
+                    foreach (var Message in MessagesList)
                     {
-                        var userItem = new ListViewItem();
-                        MessageBlock.Text = message.Author.Username;
-                        userItem.Content = message.Content;
-                        userItem.Name = message.Timestamp;
-                        mestodisplaylist.Add(userItem);
+                        MessageCollection.Add(Message);
                     }
 
-                    foreach (var messageitem in from messageitem in mestodisplaylist
-                                                let Crossref = ListOfMessages.Items
-                                                    .OfType<ListViewItem>()
-                                                    .Select(id => id.Name)
-                                                    .ToList()
-                                                where !Crossref.Contains(messageitem.Name)
-                                                select messageitem)
-                    {
-                        ListOfMessages.Items.Add(messageitem);
-                    }
+                    //var mestodisplaylist = new List<ListViewItem>();
+                    //var messlist = MessagesList;
+                    //var MessageBlock = new TextBlock();
+
+                    //foreach (var message in messlist)
+                    //{
+                    //    var userItem = new ListViewItem();
+                    //    MessageBlock.Text = message.Author;
+                    //    userItem.Content = message.Content;
+                    //    userItem.Name = message.Timestamp;
+                    //    mestodisplaylist.Add(userItem);
+                    //}
+
+                    //foreach (var messageitem in from messageitem in mestodisplaylist
+                    //                            let Crossref = ListOfMessages.Items
+                    //                                .OfType<ListViewItem>()
+                    //                                .Select(id => id.Name)
+                    //                                .ToList()
+                    //                            where !Crossref.Contains(messageitem.Name)
+                    //                            select messageitem)
+                    //{
+                    //    ListOfMessages.Items.Add(messageitem);
+
+                    //}
                 });
         }
     }

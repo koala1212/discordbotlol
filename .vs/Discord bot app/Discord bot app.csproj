@@ -132,7 +132,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="GuildManager\Messages\GetMessages.cs" />
-    <Compile Include="GuildManager\Messages\MessageClasses\Message.cs" />
+    <Compile Include="Views\MessagePage\Message.cs" />
     <Compile Include="Startup\InitializeDiscord.cs" />
     <Compile Include="MessageLogger\MessageLoggerMain.cs" />
     <Compile Include="GuildManager\Users\GuildUsers.cs" />
@@ -213,6 +213,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />
+    <Folder Include="GuildManager\Messages\MessageClasses\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

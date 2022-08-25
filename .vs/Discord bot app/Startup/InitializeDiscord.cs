@@ -16,7 +16,7 @@ public class InitializeDiscord
     {
         Client = new DiscordSocketClient();
         Client.Log += Log;
-        var token = "MTAwNDg4NjQ1MjY4Mjg5MTMzNQ.GKzf3N.1wn-1CIyup5cAS5K1jB_p8ASVcAuVQvxZ0Eirs";
+        var token = "MTAwNDg4NjQ1MjY4Mjg5MTMzNQ.GbhrDF.zu43LNAmrLGHqqg-M_F9Tc2-PRMkNIWE7fT0Fo";
         
         await Client.LoginAsync(TokenType.Bot, token);
         await Client.StartAsync();

@@ -16,14 +16,17 @@
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="UserDmItemTemplate">
-
-            <Grid>
-                <TextBlock Foreground="White" TextWrapping="Wrap" Text="{Binding Name}">
-
-                </TextBlock>
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="233" />
+                    </Grid.ColumnDefinitions>
+                    <PersonPicture HorizontalAlignment="Left" ProfilePicture="{Binding ProfileImage}" Width="40" Height="40" Grid.Column="0" Foreground="White"></PersonPicture>
+                    <TextBlock Foreground="White" TextWrapping="Wrap" Grid.Column="1" Text="{Binding Name}"></TextBlock>
+                </Grid>
                 
-
-            </Grid>
+            </StackPanel>
         </DataTemplate>
 
         <ControlTemplate x:Key="NavigationViewTemplate1" TargetType="NavigationView">
@@ -45,12 +48,45 @@
 
             </Grid>
         </DataTemplate>
-        <ItemsPanelTemplate x:Key="DMUsersItemPanel">
-            <StackPanel>
-                
-                <PersonPicture Scale="" Height="43" Width="61" HorizontalAlignment="Left" ProfilePicture=""/>
-                <TextBlock TextWrapping="Wrap" Text="{Binding Name}" d:DataContext="{d:DesignInstance }"></TextBlock>
-            </StackPanel>
+
+        <DataTemplate x:Key="DmMessageItemsTest">
+            <StackPanel Background="Black">
+
+                <Grid BorderBrush="Gray" BorderThickness="2,2" Margin="2">
+                    <Grid.ColumnDefinitions>
+                        
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="250" />
+                        <ColumnDefinition Width="340" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowSpacing> 2000
+                    </Grid.RowSpacing>
+                    <PersonPicture Width="40" Height="40" Foreground="White" ProfilePicture="{Binding UserProfile}" HorizontalAlignment="Left"></PersonPicture>
+                    <TextBlock Foreground="White" VerticalAlignment="Center" TextWrapping="Wrap" Grid.Column="1" Text="{Binding Author}"></TextBlock>
+                    <TextBlock Grid.RowSpan="3" MinHeight="50" Foreground="White" TextWrapping="Wrap" Grid.Column="2" Text="{Binding Content}" ></TextBlock>
+                    <TextBlock TextWrapping="Wrap" Grid.Column="3" HorizontalAlignment="Right" Foreground="White" Text="{Binding Timestamp}" ></TextBlock>
+                    
+                    
+                </Grid>
+               
+                </StackPanel>
+        </DataTemplate>
+        
+        <ItemsPanelTemplate x:Key="UserDMListPanelTemplate">
+            <DataTemplate>
+                <StackPanel Background="White">
+
+                    <Grid>
+
+                        <TextBlock Foreground="Black" TextWrapping="Wrap">ghf</TextBlock>
+                    </Grid>
+                    <Grid>
+                        <PersonPicture Width="60" Height="60" ProfilePicture="Startup/Koala (1).png" HorizontalAlignment="Left"></PersonPicture>
+                    </Grid>
+                </StackPanel>
+            </DataTemplate>
+
         </ItemsPanelTemplate>
         <DataTemplate x:Key="ServerItemTemplate">
             <Grid>
