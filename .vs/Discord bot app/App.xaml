@@ -87,6 +87,7 @@
                 </StackPanel>
             </DataTemplate>
 
+
         </ItemsPanelTemplate>
         <DataTemplate x:Key="ServerItemTemplate">
             <Grid>
