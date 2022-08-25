@@ -1,10 +1,9 @@
-﻿using Discord_bot_app.GuildManager.Messages;
-using Discord_bot_app.GuildManager.Messages.MessageClasses;
+﻿using Discord.WebSocket;
+using Discord_bot_app.GuildManager.Messages;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
@@ -14,18 +13,20 @@ namespace Discord_bot_app.Views;
 
 public partial class MessageView : Page
 {
-    private List<Message> MessagesList { get; set; }
+    private List<MessagePage.MainPage.Messages> MessagesList { get; set; }
+
+    private async Task MessageRecieved(SocketMessage message) => await DisplayMessageAsync();
 
     public async void NameSelect(object sender, ItemClickEventArgs e)
     {
         var userClass = (await MainPage.Guildinfo.GetGuildMembers().ConfigureAwait(false)).usersList;
-        ListOfMessages.Items.Clear();
+        MessageCollection.Clear();
 
         var selectedName = userClass
             .Where(UniqueId2 => UniqueId2.Name == ((GuildManager.Users.MainPage.GuildUsers)e.ClickedItem).Name)
             .Select(UniqueId2 => UniqueId2.Description);
 
-        await GetMessages.GetUser(selectedName).ConfigureAwait(false);
+        await GetMessages.GetUser(selectedName).ConfigureAwait(false);  
 
         try // Creates dm channel kinda scuffed but works 
         {
@@ -35,52 +36,56 @@ public partial class MessageView : Page
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
-            ListOfMessages.Items.Clear();
+            MessageCollection.Clear();
         }
 
+        await DisplayMessageAsync();
+    }
+
+    
+
+public async Task DisplayMessageAsync()    
+    {
         if (GetMessages.dmChannel != null)
         {
-            async void Start()
-            {
-                while (true)
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                CoreDispatcherPriority.Normal,
+                async () =>
+
                 {
-                    MessagesList = await Task.Run(GetMessages.GetMessage).ConfigureAwait(false);
-                    Thread.Sleep(1000);
-                    var mestodisplaylist = new List<ListViewItem>();
-                    var messlist = MessagesList;
+                    MessagesList = await GetMessages.GetMessage();
 
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                        CoreDispatcherPriority.Normal,
-                        () =>
-                        {
-                            var MessageBlock = new TextBlock();
+                    foreach (var Message in MessagesList)
+                    {
+                        MessageCollection.Add(Message);
+                    }
 
-                            foreach (var message in messlist)
-                            {
-                                var userItem = new ListViewItem();
-                                MessageBlock.Text = message.Author.Username;
-                                userItem.Content = message.Content;
-                                userItem.Name = message.Timestamp;
-                                mestodisplaylist.Add(userItem);
-                            }
+                    //var mestodisplaylist = new List<ListViewItem>();
+                    //var messlist = MessagesList;
+                    //var MessageBlock = new TextBlock();
 
-                            foreach (var messageitem in from messageitem in mestodisplaylist
-                                                        let Crossref = ListOfMessages.Items
-                                                            .OfType<ListViewItem>()
-                                                            .Select(id => id.Name)
-                                                            .ToList()
-                                                        where !Crossref.Contains(messageitem.Name)
-                                                        select messageitem)
-                            {
-                                ListOfMessages.Items.Add(messageitem);
-                            }
-                        });
-                }
-            }
+                    //foreach (var message in messlist)
+                    //{
+                    //    var userItem = new ListViewItem();
+                    //    MessageBlock.Text = message.Author;
+                    //    userItem.Content = message.Content;
+                    //    userItem.Name = message.Timestamp;
+                    //    mestodisplaylist.Add(userItem);
+                    //}
 
-            var th = new Thread(Start) { IsBackground = true };
+                    //foreach (var messageitem in from messageitem in mestodisplaylist
+                    //                            let Crossref = ListOfMessages.Items
+                    //                                .OfType<ListViewItem>()
+                    //                                .Select(id => id.Name)
+                    //                                .ToList()
+                    //                            where !Crossref.Contains(messageitem.Name)
+                    //                            select messageitem)
+                    //{
+                    //    ListOfMessages.Items.Add(messageitem);
 
-            th.Start();
+                    //}
+                });
         }
     }
 }
+

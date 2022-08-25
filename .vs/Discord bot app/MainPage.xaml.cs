@@ -1,6 +1,4 @@
 ﻿using Discord;
-using Discord_bot_app.GuildManager.Messages.MessageClasses;
-
 using Discord_bot_app.MessageLogger;
 using Discord_bot_app.Startup;
 using Discord_bot_app.Views;
@@ -24,7 +22,7 @@ namespace Discord_bot_app
             this.InitializeComponent();
         }
 
-        private List<Message> MessagesList { get; set; }
+        private List<Views.MessagePage.MainPage.Messages> MessagesList { get; set; }
 
         public class Guildinfo : InitializeDiscord
         {
@@ -67,7 +65,8 @@ namespace Discord_bot_app
                             {
                                 Name = $"{member.Username}#{member.DiscriminatorValue}",
                                 UniqueId = member.Discriminator,
-                                Description = member
+                                Description = member,
+                                ProfileImage = member.GetDisplayAvatarUrl()
                             };
 
                             usersList.Add(users);

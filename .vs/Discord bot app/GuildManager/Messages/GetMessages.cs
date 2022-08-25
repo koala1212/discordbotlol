@@ -1,5 +1,4 @@
 ﻿using Discord;
-using Discord_bot_app.GuildManager.Messages.MessageClasses;
 using Discord_bot_app.Startup;
 using System;
 using System.Collections.Generic;
@@ -13,7 +12,7 @@ public class GetMessages : InitializeDiscord
 
     public static IDMChannel dmChannel;
 
-    public static List<Message> MessagesList { get; set; }
+    public static List<Views.MessagePage.MainPage.Messages> MessagesList { get; set; }
 
     internal static async Task GetUser(IEnumerable<IGuildUser> userData)
     {
@@ -35,22 +34,37 @@ public class GetMessages : InitializeDiscord
         }
     }
 
-    internal static async Task<List<Message>> GetMessage()
+    internal static async Task<List<Views.MessagePage.MainPage.Messages>> GetMessage()
     {
         try
         {
-            var messageQueue = new List<Message>();
+            var messageQueue = new List<Views.MessagePage.MainPage.Messages>();
             var messagesAsync = dmChannel.GetMessagesAsync(mode: CacheMode.AllowDownload);
+
+            string getTimeStamp(IMessage message)
+            {
+                if (message.Timestamp.DateTime.ToShortDateString() == DateTime.Today.ToShortDateString())
+
+                {
+                    return message.Timestamp.DateTime.ToShortTimeString();
+                }
+                else
+                {
+                    return message.Timestamp.DateTime.ToLongDateString();
+                }
+            }
 
             await foreach (var x in messagesAsync)
             {
                 foreach (var message in x)
                 {
-                    var newMessage = new Message
+                    var newMessage = new Views.MessagePage.MainPage.Messages
                     {
-                        Author = message.Author,
-                        Content = $"{message.Author.Username}: {message.Content} {message.Timestamp.DateTime.ToShortDateString()} {message.Timestamp.DateTime.ToShortTimeString()} ",
-                        Timestamp = message.Timestamp.DateTime.ToLongDateString() + message.Timestamp.DateTime.ToLongTimeString(),
+                        Author = message.Author.Username + " ",
+                        Content = message.Content + " ",
+                        UserProfile = message.Author.GetAvatarUrl(),
+                        Timestamp = getTimeStamp(message),
+                        Attachment = message.Attachments
                     };
 
                     messageQueue.Add(newMessage);
@@ -67,7 +81,6 @@ public class GetMessages : InitializeDiscord
 
             throw;
         }
-
     }
 
     //public async List<Message> dowork()
